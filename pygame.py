@@ -26,14 +26,12 @@ max_enemy_speed = 5
 max_enemies = 5
 health = 2
 
-# Yardımcı Fonksiyon: Actor boyutunu değiştirmek
 def scale_actor(actor, factor):
     surf = actor._surf
     size = (int(surf.get_width() * factor), int(surf.get_height() * factor))
     actor._surf = pygame.transform.scale(surf, size)
     actor._update_pos()
 
-# Oyuncu sınıfı
 class Player:
     def __init__(self):
         self.actor = Actor(player_img)
@@ -55,7 +53,6 @@ class Player:
         self.actor.draw()
 
     def get_bullet_position(self):
-        # Mermiyi gemisinin tam ortasında başlatmak için geminin sol ve sağ kenarını toplarız
         return (self.actor.x + self.actor.width // 2, self.actor.top)
 
     def shoot(self):
@@ -64,11 +61,10 @@ class Player:
         bullets.append(bullet)
         sounds.shoot.play()
 
-# Mermi sınıfı
 class Bullet:
     def __init__(self, x, y):
         self.actor = Actor(bullet_img)
-        scale_actor(self.actor, 0.4)  # Biraz daha büyük yapıldı
+        scale_actor(self.actor, 0.4) 
         self.actor.pos = (x-90, y)
         self.speed = 7
 
@@ -81,7 +77,6 @@ class Bullet:
     def off_screen(self):
         return self.actor.y < 0
 
-# Düşman sınıfı
 class Enemy:
     def __init__(self, speed):
         self.actor = Actor(enemy_img)
@@ -98,13 +93,11 @@ class Enemy:
     def off_screen(self):
         return self.actor.y > HEIGHT
 
-# Oyun objeleri
 player = Player()
 bullets = []
 enemies = []
 game_timer = 0
 
-# Çizim
 def draw():
     screen.clear()
     screen.blit(background_img, (0, 0))
@@ -129,7 +122,6 @@ def draw():
         if pygame.time.get_ticks() - game_timer > 3000:
             screen.draw.text("Press Q to Return to Menu", center=(WIDTH//2, HEIGHT//1.5), fontsize=30, color="yellow")
 
-# Güncelleme
 def update():
     global game_state, score, enemy_speed, health, game_timer
 
@@ -184,7 +176,6 @@ def update():
         if keyboard.q and pygame.time.get_ticks() - game_timer > 3000:
             game_state = MENU
 
-# Yeni oyun
 def start_game():
     global score, bullets, enemies, player, enemy_speed, health, game_state
     score = 0
@@ -195,12 +186,10 @@ def start_game():
     health = 2
     game_state = PLAYING
 
-# Tuş basımı
 def on_key_down(key):
     if game_state == PLAYING and key == keys.T:
         player.shoot()
 
-# Düşman üret
 def spawn_enemy():
     if game_state == PLAYING and len(enemies) < max_enemies:
         enemies.append(Enemy(enemy_speed))
