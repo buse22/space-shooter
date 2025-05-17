@@ -2,7 +2,6 @@ import random
 import pygame
 import pgzrun
 
-# Sabitler
 WIDTH = 800
 HEIGHT = 800
 
